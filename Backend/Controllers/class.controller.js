@@ -1,21 +1,41 @@
 const express=require('express')
 const mongoose=require('mongoose')
 let  Class=require('../models.js/class.model.js').Class
-console.log(Class)
+const ApiError=require('../utils/Api.Error.js').module
+const ApiResponse=require('../utils/ApiResponse.js').module
+const uploadOncloudinary=require('../utils/cloudinary.js').module
 
 
-let  createClass=async(req,res)=>{
-    try{
+const createClass=async(req,res)=>{  
+
+    //     const localImageFile=req.files?.image[0]?.path
+    //     const localvideoLinkFile=req.files?.videoLink[0]?.path
+
+    //    if(!localImageFile){
+    //     throw new ApiError(400,'image is required')
+    //    }
+    //    if(!localvideoLinkFile){
+    //     throw new ApiError(400,'videoLinkFile is required')
+    //    }
+    //     const imageFile=await uploadOncloudinary(localImageFile)
+
+    //     if(!imageFile){
+    //         throw new ApiError(500,'something went wrong while uploading imagefile in cloudinary')
+    //     }
+
+    //     const videoLinkFile=await uploadOncloudinary(localvideoLinkFile)
+
+    //     if(!videoLinkFile){
+    //        throw new ApiError(500,'something went wrong while uploading videoLink in cloudinary')
+    //     }
+
         
-        let classes=new Class(req.body)
-        let result= await classes.save()
-        res.json('class created successfully')
+        const classes=new Class(req.body)
+        const result=await classes.save()
+        res.json(new ApiResponse(201,result,'class created successfully'))
 
          
-    }
-    catch(err){
-           res.json(err)
-    }
+    
 }
 
 exports.module={createClass}
